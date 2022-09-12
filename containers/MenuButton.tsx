@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useDelayUnmount } from "../hooks/useDelayUnmount";
-import Drawer from "../components/Drawer/Drawer";
 import { CSSTransition } from "react-transition-group";
 
 const MenuButton = () => {
