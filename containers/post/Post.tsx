@@ -1,12 +1,11 @@
 import ReactMarkdown from "react-markdown";
 import { PostInterface } from "../../firebase/database/post";
 import remarkGfm from "remark-gfm";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { githubGist } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { NormalComponents } from "react-markdown/lib/complex-types";
 import { SpecialComponents } from "react-markdown/lib/ast-to-react";
 import Tag from "../../components/Tag";
-import Image from "next/image";
 
 export interface PostProps extends PostInterface {}
 
@@ -42,7 +41,13 @@ const Components: Partial<
     return inline ? (
       <code className="text-pink-600" {...props} />
     ) : (
-      <SyntaxHighlighter style={githubGist} {...props}></SyntaxHighlighter>
+      <SyntaxHighlighter
+        showLineNumbers
+        language="typescript"
+        // @ts-ignore
+        style={dracula}
+        {...props}
+      ></SyntaxHighlighter>
     );
   },
   a: ({ ...props }) => (
@@ -54,24 +59,26 @@ const Components: Partial<
   hr: ({ ...props }) => <hr className="my-5" {...props} />,
   table: ({ ...props }) => <table className="table-fixed" {...props} />,
   th: ({ ...props }) => (
+    // @ts-ignore
     <th
       className="border-b font-medium pt-0 pb-3 p-4 pl-8 text-left"
       {...props}
     />
   ),
   td: ({ ...props }) => (
+    // @ts-ignore
     <td className="pt-0 pb-3 p-4 pl-8 text-left" {...props} />
   ),
-  p: ({ node, ...props }) => <p className="pb-3" {...props} />,
+  p: ({ ...props }) => <p className="pb-3" {...props} />,
   em: ({ ...props }) => <em className="text-gray-600" {...props} />,
   img: ({ alt, src, ...props }) => (
     <picture className="">
-      <img src={src} alt={alt} className="shadow-2xl my-3" />
+      <img src={src} alt={alt} className="shadow-2xl my-3" {...props} />
     </picture>
   ),
 };
 
-const Post = ({ id, title, body, date, tags }: PostProps) => {
+const Post = ({ title, body, date, tags }: PostProps) => {
   return (
     <div className="">
       <section className="mb-4 flex flex-col gap-1">
