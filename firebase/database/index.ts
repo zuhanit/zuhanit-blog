@@ -1,13 +1,5 @@
 import { app, db } from "..";
-import {
-  getFirestore,
-  collection,
-  getDoc,
-  doc,
-  setDoc,
-  query,
-  getDocs,
-} from "firebase/firestore";
+import { collection, getDoc, doc, setDoc, getDocs } from "firebase/firestore";
 import { PostInterface } from "./post";
 import dayjs from "dayjs";
 import { remark } from "remark";
@@ -18,6 +10,7 @@ export interface DbPostInterface extends PostInterface {
 }
 
 class DataService {
+  // @ts-ignore
   public db = db;
 
   public async getPost(id: string): Promise<DbPostInterface | undefined> {
