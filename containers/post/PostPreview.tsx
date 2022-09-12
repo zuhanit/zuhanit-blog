@@ -1,8 +1,4 @@
 import { VscChevronRight } from "react-icons/vsc";
-import { randPost, randPastDate } from "@ngneat/falso";
-import { useEffect, useState } from "react";
-import { PostInterface } from "../../firebase/database/post";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { DbPostInterface } from "../../firebase/database";
 
@@ -29,27 +25,6 @@ const PostPreview = ({ id, title, plain, date }: PostProps) => {
       </div>
     </article>
   );
-};
-
-export const RandomPost = () => {
-  const [postData, setPostData] = useState<PostProps>({
-    id: "",
-    title: "",
-    body: "",
-    date: "",
-  });
-  useEffect(() => {
-    const { id, title, body } = randPost();
-    const date = randPastDate().toString();
-    setPostData({ id, title, body, date });
-  }, []);
-
-  return PostPreview({
-    id: postData.id,
-    title: postData.title,
-    body: postData.body,
-    date: postData.date,
-  });
 };
 
 export default PostPreview;
