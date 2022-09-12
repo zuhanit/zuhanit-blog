@@ -1,0 +1,29 @@
+.background-enter {
+  background-color: rgba(0, 0, 0) / 0;
+}
+
+.background-enter-active {
+  background-color: rgba(0, 0, 0) / 40;
+  transition: background-color 300ms ease-in-out;
+}
+
+.background-exit {
+  background-color: rgba(0, 0, 0);
+}
+
+.box {
+  right: 100;
+}
+
+.box-enter {
+  right: -100%;
+}
+
+.box-enter-active {
+  right: 0;
+  transition: right 300ms ease-in-out;
+}
+
+.box-enter-done {
+  right: 0;
+}
