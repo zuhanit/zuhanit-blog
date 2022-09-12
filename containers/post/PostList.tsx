@@ -1,11 +1,9 @@
-import { setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import DataService from "../../firebase/database/index";
-import { PostInterface } from "../../firebase/database/post";
+import DataService, { DbPostInterface } from "../../firebase/database/index";
 import PostPreview from "./PostPreview";
 
 const PostList = () => {
-  const [docs, setDocs] = useState<PostInterface[]>([]);
+  const [docs, setDocs] = useState<DbPostInterface[]>([]);
   useEffect(() => {
     const getPostList = async () => {
       const docs = await DataService.getPosts();
