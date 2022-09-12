@@ -32,7 +32,7 @@ class DataService {
   }
 
   public async uploadPost(post: Omit<PostInterface, "id" | "date">) {
-    const postID = post.title.replace(/\ /g, "-").toLowerCase();
+    const postID = post.title.replace(/ /g, "-").toLowerCase();
     const docRef = doc(this.db, "posts", postID);
     const plainBody = await remark().use(strip).process(post.body);
     await setDoc(docRef, {
@@ -41,6 +41,7 @@ class DataService {
       body: post.body,
       date: dayjs().toString(),
       plain: String(plainBody).replace(/\n/g, " "),
+      tags: post.tags,
     });
   }
 
