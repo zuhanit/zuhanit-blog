@@ -1,22 +1,12 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import styled from "styled-components";
-import { CSSTransition } from "react-transition-group";
+import React from "react";
 
 interface DrawerProps {
-  setDrawer: (t: any) => void;
   isOpen: boolean;
   children: React.ReactNode[] | React.ReactNode;
 }
 
-const Drawer = ({ children = [], setDrawer, isOpen }: DrawerProps) => {
-  return <div></div>;
+const Drawer = ({ children }: DrawerProps) => {
+  return <div>{children}</div>;
 };
 
 export default Drawer;
