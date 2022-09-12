@@ -4,6 +4,7 @@ import EditorArea from "./EditorArea";
 import DataService from "../../firebase/database/index";
 import { useRouter } from "next/router";
 import { CSSTransition } from "react-transition-group";
+import Tag from "../../components/Tag";
 
 interface EditorProps extends React.HTMLAttributes<HTMLDivElement> {}
 interface ErrorType {
@@ -17,6 +18,8 @@ const Editor = ({ className }: EditorProps) => {
     body: false,
     tags: false,
   });
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInputValue, setTagInputValue] = useState("");
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const tagsInputRef = useRef<HTMLInputElement>(null);
@@ -40,11 +43,18 @@ const Editor = ({ className }: EditorProps) => {
       await DataService.uploadPost({
         body: editorRef.current?.value as string, // Replace \n to multiline.
         title: title,
-        tags: tagsInputRef.current?.value as string[],
+        tags: tags,
       });
       router.push(`/posts/${title.replace(/ /gi, "-").toLowerCase()}`);
     } else {
       titleInputRef.current?.focus();
+    }
+  };
+  const onSubmitTag = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (tagsInputRef.current?.value !== "") {
+      setTags([...tags, tagsInputRef.current?.value as string]);
+      tagsInputRef.current!.value = "";
     }
   };
   return (
@@ -58,7 +68,7 @@ const Editor = ({ className }: EditorProps) => {
         </button>
       </div>
       <div className="mb-4 w-full">
-        <label className={`w-full `}>
+        <label className={"w-full"}>
           <input
             placeholder="제목을 입력해주세요."
             className={`focus:outline-none w-full border ${
@@ -77,13 +87,14 @@ const Editor = ({ className }: EditorProps) => {
             </div>
           </CSSTransition>
         </label>
-        <label className={`w-full `}>
+        <form onSubmit={onSubmitTag}>
           <input
             placeholder="태그를 입력해주세요."
             className={`focus:outline-none w-full border ${
               error.title ? "border-red-500 rounded" : "border-transparent"
             }`}
-            ref={titleInputRef}
+            ref={tagsInputRef}
+            type=""
           />
           <CSSTransition
             in={error.title}
@@ -95,7 +106,12 @@ const Editor = ({ className }: EditorProps) => {
               태그 값은 필수입니다.
             </div>
           </CSSTransition>
-        </label>
+        </form>
+        <div className="flex gap-2">
+          {tags.map((tag) => (
+            <Tag value={tag} key={tag} />
+          ))}
+        </div>
       </div>
       <div className="grow flex">
         <EditorArea
